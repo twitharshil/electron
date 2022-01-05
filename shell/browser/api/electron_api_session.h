@@ -158,8 +158,6 @@ class Session : public gin::Wrappable<Session>,
   // disable copy
   Session(const Session&) = delete;
   Session& operator=(const Session&) = delete;
-  bool ChooseMediaDevice(const content::MediaStreamRequest& request,
-                         content::MediaResponseCallback callback);
 
  protected:
   Session(v8::Isolate* isolate, ElectronBrowserContext* browser_context);

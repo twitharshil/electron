@@ -47,9 +47,6 @@ class ResolveProxyHelper;
 class WebViewManager;
 class ProtocolRegistry;
 
-// Preference keys for device apis
-extern const char kSerialGrantedDevicesPref[];
-
 using MediaResponseCallbackJs =
     base::OnceCallback<void(const blink::MediaStreamDevices& devices,
                             blink::mojom::MediaStreamRequestResult result)>;
@@ -156,19 +153,6 @@ class ElectronBrowserContext : public content::BrowserContext {
   void SetSSLConfig(network::mojom::SSLConfigPtr config);
   network::mojom::SSLConfigPtr GetSSLConfig();
   void SetSSLConfigClient(mojo::Remote<network::mojom::SSLConfigClient> client);
-
-  // Grants |origin| access to |object| by writing it into the browser context.
-  // To be used in place of ObjectPermissionContextBase::GrantObjectPermission.
-  void GrantObjectPermission(const url::Origin& origin,
-                             base::Value object,
-                             const std::string& pref_key);
-
-  // Returns the list of objects that |origin| has been granted permission to
-  // access. To be used in place of
-  // ObjectPermissionContextBase::GetGrantedObjects.
-  std::vector<std::unique_ptr<base::Value>> GetGrantedObjects(
-      const url::Origin& origin,
-      const std::string& pref_key);
 
   bool ChooseMediaDevice(const content::MediaStreamRequest& request,
                          content::MediaResponseCallback callback);

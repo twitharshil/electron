@@ -656,30 +656,6 @@ void Session::SetDevicePermissionHandler(v8::Local<v8::Value> val,
   permission_manager->SetDevicePermissionHandler(handler);
 }
 
-void Session::SetMediaRequestHandler(MediaRequestHandler handler) {
-  media_request_handler_ = handler;
-}
-
-bool Session::ChooseMediaDevice(const content::MediaStreamRequest& request,
-                                content::MediaResponseCallback callback) {
-  if (!media_request_handler_)
-    return false;
-  MediaResponseCallbackJs callbackJs = base::BindOnce(
-      [](content::MediaResponseCallback callback,
-         const blink::MediaStreamDevices& devices,
-         blink::mojom::MediaStreamRequestResult result) {
-        std::move(callback).Run(devices, result, nullptr);
-      },
-      std::move(callback));
-  media_request_handler_.Run(request, std::move(callbackJs));
-  return true;
-}
-
-void Session::SetMediaRequestHandler(gin::Arguments* args) {
-  MediaRequestHandler handler;
-  if (!args->GetNext(&handler))
-}
-
 void Session::SetMediaRequestHandler(v8::Isolate* isolate,
                                      v8::Local<v8::Value> val) {
   if (val->IsNull())
