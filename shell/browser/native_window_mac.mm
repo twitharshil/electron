@@ -296,7 +296,7 @@ NativeWindowMac::NativeWindowMac(const gin_helper::Dictionary& options,
   NSUInteger styleMask = NSWindowStyleMaskTitled;
 
   // The NSWindowStyleMaskFullSizeContentView style removes rounded corners
-  // for framless window.
+  // for frameless window.
   bool rounded_corner = true;
   options.Get(options::kRoundedCorners, &rounded_corner);
   if (!rounded_corner && !has_frame())
@@ -1110,6 +1110,10 @@ void NativeWindowMac::SetHasShadow(bool has_shadow) {
 
 bool NativeWindowMac::HasShadow() {
   return [window_ hasShadow];
+}
+
+void NativeWindowMac::InvalidateShadow() {
+  [window_ invalidateShadow];
 }
 
 void NativeWindowMac::SetOpacity(const double opacity) {
